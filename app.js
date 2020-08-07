@@ -1,29 +1,60 @@
 const inquirer = require('inquirer');
 const express = require('express')
-const cTable = require('console.table');
+const { viewAllDepartments, viewAllEmployees, viewAllRoles, addDepartment, addEmployee, addRole, UpdateEmployeeRole } = require("./db/query.js")
 
-const PORT = process.env.PORT || 3001;
 const connection = require('./db/database');
 
-const app = express();
+//Inquirer prompt and questions
+const questionsOpening = function () {
+  inquirer
+  .prompt({
+    type: "list",
+    name: "search",
+    message: "What would you like to do?",
+    choices: [
+      "View all departments",
+      "View all roles",
+      "View all employees",
+      "Add a department",
+      "Add a role",
+      "Add an employee",
+      "Update an employee role",
+      "Exit"
+  ]
 
-//api routes
-const apiRoutes = require('./routes/apiRoutes');
-app.use('/api', apiRoutes);
+  }).then (function (answer) {
+    console.log(answer.search);
+    switch (answer.search) {
+          case "View all departments":
+            viewAllDepartments();
+            break;
 
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+          case "View all roles":
+            viewAllRoles();
+            break;
 
+          case "View all employees":
+             viewAllEmployees();
+             break;
 
-// Default response for any other request (Not Found) - catch all
-app.use((req, res) => {
-    res.status(404).end();
+          case "Add a department":
+            addDepartment();
+            break;
+
+          case "Add role":
+            addRole();
+            break;
+
+          case "Add an employee":
+              addEmployee();
+              break;
+
+          case "Update an employee role":
+              UpdateEmployeeRole();
+              break;
+    }
   });
+};
+questionsOpening();
 
-// Start server after DB connection
-connection.on('open', () => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  });
+module.exports = { questionsOpening }
