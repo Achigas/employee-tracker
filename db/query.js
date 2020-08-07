@@ -1,6 +1,7 @@
 const cTable = require('console.table');
 const connection = require('./database');
 const { questionsOpening } = require('../app.js')
+const inquirer = require('inquirer')
 
 function viewAllDepartments() {
     const query = connection.query("SELECT * FROM departments", function (err, res) {
@@ -26,10 +27,41 @@ function viewAllEmployees() {
     });
 }
 
+function addDepartment() {
+    inquirer.prompt ({
+        type: 'input',
+        name: 'department',
+        message: 'What is the name of the new department?'
+    }).then(function(input) {
+        console.log('Inserting a new department...\n');
+        const query = connection.query(
+          'INSERT INTO departments SET ?',
+          {
+            name: input.department
+          },
+          function(err, res) {
+            if (err) throw err;
+            console.log('Department added!\n');
+          });
+    });
+};
+
+// function addEmployee() {
+
+// }
+
+// function addRole() {
+
+// }
+
+// function UpdateEmployeeRole() {
+
+// }
 module.exports = { viewAllDepartments,
     viewAllEmployees,
-    viewAllRoles }
-    // addDepartment, 
+    viewAllRoles,
+    addDepartment }
+
     // addEmployee, 
     // addRole, 
-    // UpdateEmployeeRole 
+    // updateEmployeeRole 
