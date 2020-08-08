@@ -3,7 +3,7 @@
 
 ## Table of contents
 * [General info](#general-info)
-* [Screenshots](#screenshots)
+* [Screenshot](#screenshots)
 * [Video Walkthrough](#video_walkthrough)
 * [Licenses](#licenses)
 * [Code](#code)
@@ -14,11 +14,11 @@
 ## General info
 The user can add, view, and modify department, role, and employee data. The user can select these options from a menu. The user will be led through prompts that help to add, view, or modify the business data.
 
-## Screenshots
+## Screenshot
 ![Employee Tracker Screenshot](./images/employee_tracker.png)
 
 ## Video Walkthrough 
-[Employee Tracker Walkthrough](https://damp-bastion-26381.herokuapp.com)
+[Employee Tracker Walkthrough](https://drive.google.com/file/d/16-gK36OUQ-6hmO4JCoRIyVN1byS4lcGP/view)
 
 ## Setup
 * Clone GitHub repository 
