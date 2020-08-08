@@ -5,7 +5,7 @@ const connection = require('./db/database');
 const { getDepartments, getEmployees, getRoles } = require('./db/query.js')
 
 //Inquirer prompt and questions
-const questionsOpening = function () {
+function questionsOpening() {
   inquirer
   .prompt({
     type: "list",
