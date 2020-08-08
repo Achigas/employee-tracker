@@ -23,7 +23,6 @@ function questionsOpening() {
   ]
 
   }).then (function (answer) {
-    console.log(answer.search);
     switch (answer.search) {
           case "View all departments":
             viewAllDepartments();
