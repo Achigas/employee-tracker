@@ -51,6 +51,11 @@ function questionsOpening() {
           case "Update an employee role":
               updateEmployeeRole();
               break;
+          
+          case "Exit":
+              console.log("Bye!");
+              connection.end();
+              break
     }
   })
 };
