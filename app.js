@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const cTable = require('console.table');
 
 const connection = require('./db/database');
+const { getDepartments, getEmployees, getRoles } = require('./db/query.js')
 
 //Inquirer prompt and questions
 const questionsOpening = function () {
@@ -49,7 +50,7 @@ const questionsOpening = function () {
               break;
 
           case "Update an employee role":
-              UpdateEmployeeRole();
+              updateEmployeeRole();
               break;
     }
   })
@@ -63,7 +64,7 @@ function viewAllDepartments() {
       console.table(res);
       questionsOpening();
   });
-}
+};
 
 function viewAllRoles() {
   //query to view roles with department ID returned with name
@@ -73,7 +74,7 @@ function viewAllRoles() {
       console.table(res);
       questionsOpening();
   });
-}
+};
 
 function viewAllEmployees() {
   const query = connection.query("SELECT e1.id, e1.first_name, e1.last_name, roles.title as role, departments.name AS department, roles.salary, Concat(e2.first_name, ' ', e2.last_name) AS manager FROM employees e1 LEFT JOIN roles ON e1.role_id = roles.id LEFT JOIN departments ON roles.department_id = departments.id LEFT JOIN employees e2 ON e2.id = e1.manager_id", function (err, res) {
@@ -82,7 +83,7 @@ function viewAllEmployees() {
       console.table(res);
       questionsOpening();
   });
-}
+};
 
 function addDepartment() {
   inquirer.prompt ({
@@ -158,7 +159,7 @@ function addRole() {
           });
       })
   })
-}
+};
 
 function addEmployee() {
     getEmployees()
@@ -238,19 +239,76 @@ function addEmployee() {
         });
       });
     });
-  };  
+};  
+
+function updateEmployeeRole() {
+  getEmployees()
+    .then((employees) => {
+      let employeeNamesArr = []
+      let employeesArray = employees[0]
+      for (var i=0; i < employeesArray.length; i++) {
+        let employee = employeesArray[i].first_name + ' ' + employeesArray[i].last_name
+        employeeNamesArr.push(employee)
+      }
+      getRoles()
+      .then((roles) => {
+         let roleTitlesArr = []
+         let rolesArray = roles[0]
+         for (var i=0; i < rolesArray.length; i++) {
+           let role = rolesArray[i].title
+           roleTitlesArr.push(role)
+         }
 
 
-function getDepartments() {
-  return connection.promise().query("SELECT * FROM departments")
-};
+         inquirer.prompt([
+           {
+             type: "list",
+             name: "employee",
+             message: "Which employee's role would you like to update?",
+             choices: employeeNamesArr
+           },
+           {
+             type: "list",
+             name: "role",
+             message: "What is their new role?",
+             choices: roleTitlesArr
+           }])
+         .then((input) => {
+          let roleID
+          for (let i=0; i < rolesArray.length; i++) {
+            if (input.role === rolesArray[i].title) {
+            roleID = rolesArray[i].id;
+            break
+            }
+          }
 
-function getRoles() {
-  return connection.promise().query("SELECT * FROM roles")
-};
-
-function getEmployees () {
-  return connection.promise().query("SELECT * FROM employees")
+          let employeeID
+          for (let i=0; i < employeesArray.length; i++) {
+            if (input.employee === employeesArray[i].first_name + ' ' + employeesArray[i].last_name) {
+              employeeID = employeesArray[i].id;
+              break
+            }
+          }
+      
+          console.log('Updating employee role...\n');
+          // Update employee role
+          connection.query('UPDATE employees SET ? WHERE ?', [
+                  {
+                    role_id: roleID
+                  },
+                  {
+                    id: employeeID
+                  }
+                ],
+                function(err, res) {
+                  if (err) throw err;
+                  console.log('Role updated!\n');
+                  questionsOpening();
+                }
+            );
+          });
+        });
+    });
 };
 
 questionsOpening()
