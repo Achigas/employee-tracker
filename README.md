@@ -15,13 +15,13 @@
 The user can add, view, and modify department, role, and employee data. The user can select these options from a menu. The user will be led through prompts that help to add, view, or modify the business data.
 
 ## Screenshots
-![Employee Tracker Screenshot](./public/images/Note-taker.png)
+![Employee Tracker Screenshot](./images/employee_tracker.png)
 
 ## Video Walkthrough 
 [Employee Tracker Walkthrough](https://damp-bastion-26381.herokuapp.com)
 
 ## Setup
-* Clone repo
+* Clone GitHub repository 
 * run npm install
 * run npm i inquirer
 * run npm i console.table
