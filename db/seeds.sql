@@ -21,7 +21,8 @@ VALUES
 ('Cheerleader', 65000, 4),
 ('Statskeeper', 85000, 4),
 ('Head Coach', 150000, 5),
-('Assitant Coach', 125000, 5);
+('Assitant Coach', 125000, 5),
+('Queen', 400000, 4);
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES
@@ -38,4 +39,5 @@ VALUES
 ('Mamma', 'Mia', 9, NULL),
 ('Albert', 'Einstien', 10, 13),
 ('Alex', 'Chigas', 11, NULL),
-('Power', 'Ranger', 12, 13);
+('Power', 'Ranger', 12, 13),
+('Beyonce', 'Knowles', 13, NULL);
